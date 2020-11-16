@@ -40,6 +40,8 @@ client.connect(err => {
         console.log(err)
         console.log('data loaded successfully')
       })
+
+    
 });
 
 app.listen(process.env.PORT || port);
