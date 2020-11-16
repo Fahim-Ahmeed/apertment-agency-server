@@ -105,6 +105,21 @@ client.connect(err => {
     console.log(err)
     console.log('customer loaded successfully')
   })
+
+  app.post('/addCustomer', (req, res) => {
+    const name = req.body.name;
+    const email = req.body.email;
+    const number = req.body.number;
+    const message= req.body.message;
+    const status= req.body.status;
+    
+    customer.insertOne({ name, email, number,message,status})
+      .then(result => {
+        res.send(result.insertedCount > 0);
+      })
+  })
+
+
   app.get('/findAdmin', (req, res) => {
     console.log(req.query.email)
     admin.find({ email: req.query.email })
