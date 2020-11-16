@@ -29,6 +29,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
   const apartment = client.db(`${process.env.DB_NAME}`).collection("apartment")
   const admin = client.db(`${process.env.DB_NAME}`).collection("adminPanel");
+  const customer = client.db(`${process.env.DB_NAME}`).collection("customer");
   console.log('database connected')
 
 
@@ -95,6 +96,24 @@ client.connect(err => {
         res.send(result.insertedCount > 0);
       })
   })
+
+  app.get('/allCustomer', (req, res) => {
+    customer.find({})
+      .toArray((err, documents) => {
+        res.send(documents);
+      })
+    console.log(err)
+    console.log('customer loaded successfully')
+  })
+  app.get('/findAdmin', (req, res) => {
+    console.log(req.query.email)
+    admin.find({ email: req.query.email })
+      .toArray((err, documents) => {
+        res.send(documents)
+      })
+  })
+ 
+
   app.post('/makeAdmin', (req, res) => {
     admin.insertOne(req.body)
       .then(result => {
